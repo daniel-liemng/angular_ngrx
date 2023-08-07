@@ -1,3 +1,5 @@
+<h3>{{ name$ | async }}</h3>
+
 <div class="hstack gap-3">
   <input
     [(ngModel)]="value"
@@ -7,3 +9,5 @@
   />
   <button (click)="onAddValue()" class="btn btn-primary">Add to Counter</button>
 </div>
+
+<button (click)="onChangeName()" class="btn btn-info">Change name</button>

@@ -1,4 +1,5 @@
 import {
+  changeName,
   customIncrement,
   decrement,
   increment,
@@ -31,6 +32,12 @@ const _counterReducer = createReducer(
     return {
       ...state,
       counter: state.counter + action.value,
+    };
+  }),
+  on(changeName, (state) => {
+    return {
+      ...state,
+      name: 'My new name',
     };
   })
 );
