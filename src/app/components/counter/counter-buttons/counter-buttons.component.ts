@@ -5,6 +5,7 @@ import {
   increment,
   reset,
 } from 'src/app/store/counter/counter.actions';
+import { CounterState } from 'src/app/store/counter/counter.state';
 
 @Component({
   selector: 'app-counter-buttons',
@@ -12,7 +13,7 @@ import {
   styleUrls: ['./counter-buttons.component.scss'],
 })
 export class CounterButtonsComponent {
-  constructor(private store: Store<{ counter: { counter: number } }>) {}
+  constructor(private store: Store<{ counter: CounterState }>) {}
 
   onIncrement() {
     this.store.dispatch(increment());
