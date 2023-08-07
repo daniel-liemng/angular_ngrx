@@ -7,6 +7,7 @@ import {
 import { getName } from 'src/app/store/counter/counter.selectors';
 import { CounterState } from 'src/app/store/counter/counter.state';
 import { Observable } from 'rxjs';
+import { AppState } from 'src/app/store/app/app.state';
 
 @Component({
   selector: 'app-counter-input',
@@ -22,7 +23,7 @@ export class CounterInputComponent implements OnInit {
   // Opt 2
   name$!: Observable<string>;
 
-  constructor(private store: Store<{ counter: CounterState }>) {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     // Opt 1
