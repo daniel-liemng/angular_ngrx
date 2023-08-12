@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Post } from 'src/app/models/post.model';
 import { AppState } from 'src/app/store/app/app.state';
@@ -13,7 +14,7 @@ import { addPost } from 'src/app/store/post/post.actions';
 export class AddPostComponent implements OnInit {
   postForm!: FormGroup;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit(): void {
     this.postForm = new FormGroup({
@@ -49,5 +50,6 @@ export class AddPostComponent implements OnInit {
     this.store.dispatch(addPost({ post }));
 
     this.postForm.reset();
+    this.router.navigate(['posts']);
   }
 }

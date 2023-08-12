@@ -12,6 +12,7 @@
           <th scope="col">#</th>
           <th scope="col">Title</th>
           <th scope="col">Description</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +20,15 @@
           <th scope="row">{{ post.id }}</th>
           <td>{{ post.title }}</td>
           <td>{{ post.description }}</td>
+          <td>
+            <button
+              [routerLink]="['edit', post.id]"
+              class="btn btn-sm btn-primary mx-1"
+            >
+              Edit
+            </button>
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
