@@ -13,10 +13,10 @@ import { getPostById } from 'src/app/store/post/post.selectors';
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.scss'],
 })
-export class EditPostComponent implements OnInit {
+export class EditPostComponent implements OnInit, OnDestroy {
   postForm!: FormGroup;
   post!: Post;
-  // postSubscription!: Subscription;
+  postSubscription!: Subscription;
 
   constructor(
     private store: Store<AppState>,
@@ -28,10 +28,12 @@ export class EditPostComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
 
-      this.store.select(getPostById(id as string)).subscribe((data) => {
-        this.post = data;
-        this.createForm();
-      });
+      this.postSubscription = this.store
+        .select(getPostById(id as string))
+        .subscribe((data) => {
+          this.post = data;
+          this.createForm();
+        });
     });
   }
 
@@ -73,9 +75,9 @@ export class EditPostComponent implements OnInit {
     this.router.navigate(['posts']);
   }
 
-  // ngOnDestroy(): void {
-  //   if (this.postSubscription) {
-  //     this.postSubscription.unsubscribe();
-  //   }
-  // }
+  ngOnDestroy(): void {
+    if (this.postSubscription) {
+      this.postSubscription.unsubscribe();
+    }
+  }
 }
