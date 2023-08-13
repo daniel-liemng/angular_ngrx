@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <h3>Login</h3>
+    <hr />
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-group mb-3">
+        <label for="email">Email</label>
+        <input
+          formControlName="email"
+          type="email"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': email?.invalid && (email?.dirty || email?.touched)
+          }"
+          placeholder="Email"
+        />
+
+        <div
+          *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+          class="text-danger"
+        >
+          <div *ngIf="email?.errors?.['required']">Required</div>
+          <div *ngIf="email?.errors?.['email']">Invalid email</div>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <label for="password">Password</label>
+        <input
+          formControlName="password"
+          type="password"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              password?.invalid && (password?.dirty || password?.touched)
+          }"
+          placeholder="Password"
+        />
+
+        <div
+          *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+          class="text-danger"
+        >
+          <div *ngIf="password?.errors?.['required']">Required</div>
+          <div *ngIf="password?.errors?.['minlength']">Min 6 characters</div>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="!loginForm.valid" class="btn btn-info">
+        Login
+      </button>
+    </form>
+  </div>
+</div>

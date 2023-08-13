@@ -10,7 +10,6 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { HomeComponent } from './pages/home/home.component';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { appReducer } from './store/app/app.state';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, HomeComponent],
