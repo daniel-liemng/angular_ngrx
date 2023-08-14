@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app/app.state';
+import { signupStart } from 'src/app/store/auth/auth.actions';
 import { setLoadingSpinner } from 'src/app/store/shared/shared.action';
 
 @Component({
@@ -41,6 +42,6 @@ export class SignupComponent {
     const password = this.signupForm.value.password;
 
     this.store.dispatch(setLoadingSpinner({ status: true }));
-    // this.store.dispatch(loginStart({ email, password }));
+    this.store.dispatch(signupStart({ email, password }));
   }
 }
