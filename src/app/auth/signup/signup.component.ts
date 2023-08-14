@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app/app.state';
-import { loginStart } from 'src/app/store/auth/auth.actions';
 import { setLoadingSpinner } from 'src/app/store/shared/shared.action';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss'],
 })
-export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
+export class SignupComponent {
+  signupForm!: FormGroup;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
+    this.signupForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
@@ -26,22 +25,22 @@ export class LoginComponent implements OnInit {
   }
 
   get email() {
-    return this.loginForm.get('email');
+    return this.signupForm.get('email');
   }
 
   get password() {
-    return this.loginForm.get('password');
+    return this.signupForm.get('password');
   }
 
-  onLogin() {
-    if (!this.loginForm.valid) {
+  onSignup() {
+    if (!this.signupForm.valid) {
       return;
     }
 
-    const email = this.loginForm.value.email;
-    const password = this.loginForm.value.password;
+    const email = this.signupForm.value.email;
+    const password = this.signupForm.value.password;
 
     this.store.dispatch(setLoadingSpinner({ status: true }));
-    this.store.dispatch(loginStart({ email, password }));
+    // this.store.dispatch(loginStart({ email, password }));
   }
 }
