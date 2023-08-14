@@ -9,16 +9,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { HomeComponent } from './pages/home/home.component';
+import { SpinnerComponent } from './components/shared/spinner/spinner.component';
+import { appReducer } from './store/app/app.state';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    HomeComponent,
+    SpinnerComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    // StoreModule.forRoot(appReducer),
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(appReducer),
+    // StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
+
     StoreDevtoolsModule.instrument({ logOnly: !isDevMode() }),
   ],
   providers: [],
