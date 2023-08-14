@@ -1,5 +1,8 @@
 <app-navbar></app-navbar>
 <app-spinner *ngIf="showLoading | async"></app-spinner>
 <div class="container mt-3">
+  <div *ngIf="errorMessage | async as error" class="alert alert-danger">
+    {{ error }}
+  </div>
   <router-outlet></router-outlet>
 </div>
