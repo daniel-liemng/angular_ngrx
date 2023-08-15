@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/store/app/app.state';
+import { autoLogout } from 'src/app/store/auth/auth.actions';
 import { isAuthenticated } from 'src/app/store/auth/auth.selectors';
 
 @Component({
@@ -16,5 +17,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAuthenticated = this.store.select(isAuthenticated);
+  }
+
+  onLogout(event: Event) {
+    event.preventDefault();
+    this.store.dispatch(autoLogout());
   }
 }

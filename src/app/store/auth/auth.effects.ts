@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   autoLogin,
+  autoLogout,
   loginStart,
   loginSuccess,
   signupStart,
@@ -35,7 +36,7 @@ export class AuthEffect {
 
             this.authService.setUserInLocalStorage(user);
 
-            return loginSuccess({ user });
+            return loginSuccess({ user, redirect: true });
           }),
           catchError((errRes) => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
@@ -56,7 +57,9 @@ export class AuthEffect {
         ofType(...[loginSuccess, signupSuccess]),
         tap((action) => {
           this.store.dispatch(setErrorMessage({ message: '' }));
-          this.router.navigate(['/']);
+          if (action.redirect) {
+            this.router.navigate(['/']);
+          }
         })
       );
     },
@@ -75,7 +78,7 @@ export class AuthEffect {
 
             this.authService.setUserInLocalStorage(user);
 
-            return signupSuccess({ user });
+            return signupSuccess({ user, redirect: true });
           }),
           catchError((errRes) => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
@@ -89,13 +92,24 @@ export class AuthEffect {
     );
   });
 
-  autoLogin$ = createEffect(
+  autoLogin$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(autoLogin),
+      mergeMap((action) => {
+        const user = this.authService.getUserFromLocalStorage()!;
+
+        return of(loginSuccess({ user, redirect: false }));
+      })
+    );
+  });
+
+  logout$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(autoLogin),
+        ofType(autoLogout),
         map((action) => {
-          const user = this.authService.getUserFromLocalStorage();
-          console.log('4545', user);
+          this.authService.logout();
+          this.router.navigate(['auth']);
         })
       );
     },

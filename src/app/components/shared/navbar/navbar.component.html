@@ -29,8 +29,12 @@
         <li *ngIf="!(isAuthenticated | async)" class="nav-item">
           <a class="nav-link" [routerLink]="['/auth/signup']">Signup</a>
         </li>
-        <li *ngIf="isAuthenticated | async" class="nav-item">
-          <a class="nav-link" [routerLink]="['/auth/signup']">Logout</a>
+        <li
+          *ngIf="isAuthenticated | async"
+          class="nav-item"
+          style="cursor: pointer"
+        >
+          <a class="nav-link" (click)="onLogout($event)">Logout</a>
         </li>
       </ul>
     </div>
