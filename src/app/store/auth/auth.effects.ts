@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
+  autoLogin,
   loginStart,
   loginSuccess,
   signupStart,
   signupSuccess,
 } from './auth.actions';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { AppState } from '../app/app.state';
 import { Store } from '@ngrx/store';
@@ -31,6 +32,9 @@ export class AuthEffect {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
             const user = this.authService.formatUser(data);
+
+            this.authService.setUserInLocalStorage(user);
+
             return loginSuccess({ user });
           }),
           catchError((errRes) => {
@@ -68,6 +72,9 @@ export class AuthEffect {
             this.store.dispatch(setLoadingSpinner({ status: false }));
             this.store.dispatch(setErrorMessage({ message: '' }));
             const user = this.authService.formatUser(data);
+
+            this.authService.setUserInLocalStorage(user);
+
             return signupSuccess({ user });
           }),
           catchError((errRes) => {
@@ -81,6 +88,19 @@ export class AuthEffect {
       })
     );
   });
+
+  autoLogin$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(autoLogin),
+        map((action) => {
+          const user = this.authService.getUserFromLocalStorage();
+          console.log('4545', user);
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   // signupRedirect$ = createEffect(
   //   () => {

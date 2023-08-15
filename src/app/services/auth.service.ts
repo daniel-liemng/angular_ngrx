@@ -9,6 +9,8 @@ import { User } from '../models/user.model';
   providedIn: 'root',
 })
 export class AuthService {
+  timeoutInterval: any;
+
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<AuthResponseData> {
@@ -49,5 +51,40 @@ export class AuthService {
       default:
         return 'Unknown Error. Please try again';
     }
+  }
+
+  runTimeoutInterval(user: User) {
+    const todayDate = new Date().getTime();
+    const expirationDate = user.expireDate.getTime();
+    const timeInterval = expirationDate - todayDate;
+
+    this.timeoutInterval = setTimeout(() => {
+      // logout or get the refresh token
+    }, timeInterval);
+  }
+
+  setUserInLocalStorage(user: User) {
+    localStorage.setItem('userData', JSON.stringify(user));
+
+    this.runTimeoutInterval(user);
+  }
+
+  getUserFromLocalStorage() {
+    const userDataString = localStorage.getItem('userData');
+
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      const user = new User(
+        userData.email,
+        userData.token,
+        userData.localId,
+        new Date(userData.expirationDate)
+      );
+
+      this.runTimeoutInterval(user);
+      return user;
+    }
+
+    return null;
   }
 }

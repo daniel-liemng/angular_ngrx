@@ -11,6 +11,7 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { appReducer } from './store/app/app.state';
+import { AuthEffect } from './store/auth/auth.effects';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { appReducer } from './store/app/app.state';
     HttpClientModule,
     StoreModule.forRoot(appReducer),
     // StoreModule.forRoot({}),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AuthEffect]),
 
     StoreDevtoolsModule.instrument({ logOnly: !isDevMode() }),
   ],
