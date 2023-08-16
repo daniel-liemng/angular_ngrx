@@ -13,6 +13,8 @@ import { SpinnerComponent } from './components/shared/spinner/spinner.component'
 import { appReducer } from './store/app/app.state';
 import { AuthEffect } from './store/auth/auth.effects';
 import { AuthTokenInterceptor } from './services/authToken.interceptor';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { CustomSerializer } from './store/router/custom-serializer';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,10 @@ import { AuthTokenInterceptor } from './services/authToken.interceptor';
     EffectsModule.forRoot([AuthEffect]),
 
     StoreDevtoolsModule.instrument({ logOnly: !isDevMode() }),
+
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer,
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
