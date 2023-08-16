@@ -12,4 +12,8 @@ export class PostService {
   getPosts() {
     return this.http.get<Post[]>('http://localhost:5000/api/posts');
   }
+
+  addPost(data: Post) {
+    return this.http.post<Post>('http://localhost:5000/api/posts', data);
+  }
 }
