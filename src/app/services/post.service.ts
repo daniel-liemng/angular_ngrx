@@ -23,4 +23,8 @@ export class PostService {
       data
     );
   }
+
+  deletePost(postId: string): Observable<any> {
+    return this.http.delete(`http://localhost:5000/api/posts/${postId}`);
+  }
 }

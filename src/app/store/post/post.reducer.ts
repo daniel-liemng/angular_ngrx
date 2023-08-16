@@ -3,6 +3,7 @@ import { initialState } from './post.state';
 import {
   addPostSuccess,
   deletePost,
+  deletePostSuccess,
   loadPostsSuccess,
   updatePost,
   updatePostSuccess,
@@ -29,7 +30,7 @@ const _postReducer = createReducer(
       posts: updatedPosts,
     };
   }),
-  on(deletePost, (state, action) => {
+  on(deletePostSuccess, (state, action) => {
     return {
       ...state,
       posts: state.posts.filter((post) => post.id !== action.id),
