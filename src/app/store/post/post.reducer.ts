@@ -5,6 +5,7 @@ import {
   deletePost,
   loadPostsSuccess,
   updatePost,
+  updatePostSuccess,
 } from './post.actions';
 
 const _postReducer = createReducer(
@@ -17,7 +18,7 @@ const _postReducer = createReducer(
       posts: [...state.posts, newPost],
     };
   }),
-  on(updatePost, (state, action) => {
+  on(updatePostSuccess, (state, action) => {
     let editPost = action.post;
     const updatedPosts = state.posts.map((post) => {
       return post.id === editPost.id ? editPost : post;

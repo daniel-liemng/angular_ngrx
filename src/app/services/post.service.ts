@@ -9,11 +9,18 @@ import { tap, map, Observable } from 'rxjs';
 export class PostService {
   constructor(private http: HttpClient) {}
 
-  getPosts() {
+  getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>('http://localhost:5000/api/posts');
   }
 
-  addPost(data: Post) {
+  addPost(data: Post): Observable<Post> {
     return this.http.post<Post>('http://localhost:5000/api/posts', data);
+  }
+
+  updatePost(data: Post): Observable<Post> {
+    return this.http.put<Post>(
+      `http://localhost:5000/api/posts/${data.id}`,
+      data
+    );
   }
 }

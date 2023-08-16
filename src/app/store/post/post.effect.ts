@@ -6,8 +6,10 @@ import {
   addPostSuccess,
   loadPosts,
   loadPostsSuccess,
+  updatePost,
+  updatePostSuccess,
 } from './post.actions';
-import { map, mergeMap } from 'rxjs';
+import { map, mergeMap, switchMap } from 'rxjs';
 
 @Injectable()
 export class PostEffect {
@@ -32,8 +34,21 @@ export class PostEffect {
       mergeMap((action) => {
         return this.postService.addPost(action.post).pipe(
           map((post) => {
-            console.log(post);
             return addPostSuccess({ post });
+          })
+        );
+      })
+    );
+  });
+
+  updatePost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updatePost),
+      mergeMap((action) => {
+        return this.postService.updatePost(action.post).pipe(
+          map((post) => {
+            console.log('8888', post);
+            return updatePostSuccess({ post });
           })
         );
       })
