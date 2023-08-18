@@ -8,10 +8,12 @@ import {
   deletePostSuccess,
   loadPosts,
   loadPostsSuccess,
+  // loadSinglePostSuccess,
   updatePost,
   updatePostSuccess,
 } from './post.actions';
-import { map, mergeMap, switchMap } from 'rxjs';
+import { map, mergeMap, filter, switchMap } from 'rxjs';
+import { ROUTER_NAVIGATION, RouterNavigatedAction } from '@ngrx/router-store';
 
 @Injectable()
 export class PostEffect {
@@ -49,7 +51,6 @@ export class PostEffect {
       mergeMap((action) => {
         return this.postService.updatePost(action.post).pipe(
           map((post) => {
-            console.log('8888', post);
             return updatePostSuccess({ post });
           })
         );
@@ -63,8 +64,26 @@ export class PostEffect {
       mergeMap((action) => {
         return this.postService.deletePost(action.id).pipe(
           map((data) => {
-            console.log('456', data);
             return deletePostSuccess({ id: action.id });
+          })
+        );
+      })
+    );
+  });
+
+  getSinglePost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATION),
+      filter((r: RouterNavigatedAction) => {
+        return r.payload.routerState.url.startsWith('/posts/details');
+      }),
+      map((r: any) => {
+        return r.payload.routerState['params']['id'];
+      }),
+      switchMap((id) => {
+        return this.postService.getPostById(id).pipe(
+          map((post) => {
+            return loadPostsSuccess({ posts: [{ ...post }] });
           })
         );
       })

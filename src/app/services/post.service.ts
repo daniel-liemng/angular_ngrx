@@ -27,4 +27,8 @@ export class PostService {
   deletePost(postId: string): Observable<any> {
     return this.http.delete(`http://localhost:5000/api/posts/${postId}`);
   }
+
+  getPostById(postId: string): Observable<Post> {
+    return this.http.get<Post>(`http://localhost:5000/api/posts/${postId}`);
+  }
 }
