@@ -23,7 +23,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createForm();
     // User ngrx/router
-    this.postSubscription = this.store.select(getPostById).subscribe((post) => {
+    this.store.select(getPostById).subscribe((post) => {
       if (post) {
         this.post = post!;
         this.postForm.patchValue({

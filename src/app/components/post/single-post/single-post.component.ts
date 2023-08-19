@@ -12,7 +12,7 @@ import { map } from 'rxjs';
   styleUrls: ['./single-post.component.scss'],
 })
 export class SinglePostComponent implements OnInit {
-  post!: Observable<Post | null>;
+  post!: Observable<Post | null | undefined>;
 
   constructor(private store: Store<AppState>) {}
 
