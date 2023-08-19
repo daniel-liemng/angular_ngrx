@@ -14,6 +14,8 @@ import {
 } from './post.actions';
 import { map, mergeMap, filter, switchMap } from 'rxjs';
 import { ROUTER_NAVIGATION, RouterNavigatedAction } from '@ngrx/router-store';
+import { Post } from 'src/app/models/post.model';
+import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class PostEffect {
@@ -51,7 +53,13 @@ export class PostEffect {
       mergeMap((action) => {
         return this.postService.updatePost(action.post).pipe(
           map((post) => {
-            return updatePostSuccess({ post });
+            const updatedPost: Update<Post> = {
+              id: action.post.id!,
+              changes: {
+                ...action.post,
+              },
+            };
+            return updatePostSuccess({ post: updatedPost });
           })
         );
       })
